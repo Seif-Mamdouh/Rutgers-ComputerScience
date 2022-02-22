@@ -2,7 +2,8 @@
 [Unicode: ¬      Ascii: not    Lean: \not, \neg]
 
 -- And 
-[Unicode: /\      Ascii: /\     Lean: ∧]
+
+
 
 -- or 
 [Unicode: \/      Ascii: or \/   Lean: \or]
@@ -24,6 +25,7 @@
 
 -- not equal
 [Unicode:≠    Ascii: ~=      Lean; \ne]
+
 
 The two expressions represent, respectively, these two proofs:
 
