@@ -2,7 +2,8 @@
 [Unicode: ¬      Ascii: not    Lean: \not, \neg]
 
 -- And 
-[Unicode: /\      Ascii: /\     Lean: /and]
+
+
 
 -- or 
 [Unicode: \/      Ascii: or \/   Lean: \or]
