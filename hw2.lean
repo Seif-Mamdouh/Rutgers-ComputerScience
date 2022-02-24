@@ -54,7 +54,7 @@ section
   variable h : ∀x, shaves barber x ↔ ¬shaves x x
 
   example : false :=
-  sorry
+  (not_iff_not_self (shaves barber barber)) (h barber)
 end
 
 -- 5
