@@ -111,26 +111,18 @@ section
     have h2 : ∃ x, A x, from exists.intro x ‹A x›,
     show false, from h1 h2
 
-    example : (∀ x, ¬ A x) → ¬ ∃ x, A x :=
+-- 9
+section
+  variable  U : Type
+  variables A B C : U → Prop
+
+   example : (∀ x, ¬ A x) → ¬ ∃ x, A x :=
     assume h1 : ∀ x, ¬ A x,
     assume h2 : ∃ x, A x,
     exists.elim h2 $
     assume x (_ : A x),
     have ¬ A x, from h1 x,
     show false, from ‹¬ A x› ‹A x›
-end
-
--- 9
-section
-  variable  U : Type
-  variables A B C : U → Prop
-
-  example : (∀x, ¬A x) → ¬∃x, A x :=
-  exists.elim k
- (assume t : U,
-  assume p : A t,
-  have q : B t, from h t p,
-  exists.intro t q)
 end
 
 -- 10
