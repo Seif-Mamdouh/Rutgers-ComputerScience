@@ -131,5 +131,4 @@ section
   variables R : U → U → Prop
 
   example : (∃x, ∀y, R x y) → ∀y, ∃x, R x y :=
-  sorry
-end
+
