@@ -131,4 +131,13 @@ section
   variables R : U → U → Prop
 
   example : (∃x, ∀y, R x y) → ∀y, ∃x, R x y :=
+  assume h1, 
+  assume x : U, from h1 x,
+  exisits.eilm h1
+    (assume h2: ∀z, R x z
+    assume z : U, 
+    have h3 : R x z, from h2 z, 
+    have h4 : ∃x, R x z, from exists.intro x h3, 
+    show ∀y, ∃x, R x y, from h4)
 
+end
