@@ -1,6 +1,6 @@
 (* floating points *)
 
-(* let average_float a b = 
+let average_float a b = 
   (a +. b) /. 2.0 ;; 
 
   average_float 2.0 3.4;;
@@ -13,20 +13,20 @@
 let average_float3 a b c d = 
   (a *. b *. c*. d) /. 3.2;;
 
-  average_float3 2.4 5.6 1.3 8.9;;  *)
+  average_float3 2.4 5.6 1.3 8.9;; 
 
 
   (* Recursive Functions *)
   (* Recrusvive is the function that calls itself within itslef *)
   (* in Ocaml we have we use 'rec' to show ocaml that we are using recursion alog *)
 
-  (* let rec range a b = 
+  let rec range a b = 
     if a > b then []
     else a :: range (a + 1 ) b;;
 
     let digits = range 0 20;;
 
-    digits;; *)
+    digits;; 
 
     (* This is a expression not a statement 
 
@@ -35,8 +35,8 @@ let average_float3 a b c d =
 
        A statment is used from the sequence of a program example: if - then or while do
        A statement can be simple or complex and can contain 0 or more expression.
-
-       *)
+ *)
+      
 
 (* let rec factorial n =
     match n with
@@ -81,14 +81,14 @@ let factorial3 q = function
 
 (* Lists are a common compound data type in OCaml. They are ordered collections of elements of like type: *)
 
-(* [];;
+[];;
 - : 'a list = []
 # [1; 2; 3];;
 - : int list = [1; 2; 3]
 # [false; false; true];;
 - : bool list = [false; false; true]
 # [[1; 2]; [3; 4]; [5; 6]];;
-- : int list list = [[1; 2]; [3; 4]; [5; 6]] *)
+- : int list list = [[1; 2]; [3; 4]; [5; 6]]
 
 (* The head is the first element in the Linked List and the 
    tail is the rest of the elements of the Linked List *)
@@ -96,4 +96,3 @@ let factorial3 q = function
    1 :: [2; 3];;
    [3] @ [4; 5];;
 
-   
