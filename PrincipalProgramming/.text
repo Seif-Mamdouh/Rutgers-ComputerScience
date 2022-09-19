@@ -1,0 +1,22 @@
+Imperative Programming Langs vs Functional Programming
+
+Imperative Programming:
+    Imperative programming explicitly tells the computer "how" to accomplish something.
+
+    not mutable
+
+Functional Programming:
+    Functional programming languages are designed on the concept of mathematical 
+    functions that use conditional expressions and recursion to perform computation.
+
+    they can be mutated
+
+
+OCaml type  Range
+
+int         63-bit signed int on 64-bit processors, or 31-bit signed int on
+            32-bit processors
+float       IEEE double-precision floating point, equivalent to C's double
+bool        A boolean, written either 'true' or 'false'
+char        An 8-bit character
+string      A string (sequence of 8 bit chars)
