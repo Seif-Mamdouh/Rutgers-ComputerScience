@@ -34,6 +34,7 @@ let rec last = function
   last_three ["a" ; "b" ; "c" ; "d"; "e"; "f"];;
 
 
+  (* Get the length of the string *)
   let rec length x = 
     match x with 
     | [] -> 0
