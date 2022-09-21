@@ -15,6 +15,9 @@ let multiply j h = j * h ;;
 multiply 2 3;;
 
 
+
+(* Pattern MAtching *)
+
 let int_to_month i = 
   match i with 
   | 1 -> "Jan"
@@ -25,3 +28,28 @@ let int_to_month i =
 
 
 int_to_month 0;;
+
+
+
+(* Recursive functions *)
+
+let rec fact n = 
+  if n == 1 then 1 
+  else n * fact(n - 1);;
+
+  fact 6;;
+
+  let rec fib n = 
+    if(n <= 1) then 1
+    else (fib(n - 1) + fib(n - 2));;
+
+    fib 4;;
+
+
+    (* lists *)
+let rec length a = 
+  match a with 
+  | [] -> 0
+  | (a :: b ) -> 1 + (length b);;
+
+  length [1;2;3;4];;
