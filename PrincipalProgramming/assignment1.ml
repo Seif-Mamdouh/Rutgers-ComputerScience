@@ -13,12 +13,22 @@ let rec range num1 num2 =
 
 (* let rec flatten l =  *)
 
+let rec flatten = function
+  [] -> []
+  | l :: r -> l @ flatten r;;
+  flatten [[1;2;3];[4;5;6]]
+
 (*****************************)
 (* Problem 3: remove_stutter *)
 (*****************************)
+let rec remove_stutter l = 
+  match l with
+  | [] -> []
+  | x :: [] -> x :: []
+  | x :: y :: t -> if x = y then remove_stutter (y :: t)
+  else x :: remove_stutter (y :: t);;
+  remove_stutter [1;2;2;3;1;1;1;4;4;2;2];;
 
-let rec remove_stutter l =
-  []
 
 (*******************)
 (* Problem 4: sets *)
