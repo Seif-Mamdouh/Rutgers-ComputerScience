@@ -37,15 +37,21 @@ let rec remove_stutter l =
 let rec elem x a =
   match a with
   | [] -> false
-  | h::t -> if h = x then true else (elem x t)
+  | h::t -> if h = x then true else (elem x t);;
+
+  elem 5 [2;3;5;7;9];;
 
 let rec subset a b =
   match a with
   | [] -> true
-  | h::t -> if (elem h b) then (subset t b) else false
+  | h::t -> if (elem h b) then (subset t b) else false;;
+
+  subset [5] [2;3;5;7;9] = true
 
 let rec eq a b =
-  (subset a b) && (subset b a)
+  (subset a b) && (subset b a);;
+  
+  eq [5;3;2;9;7] [2;3;5;7;9]
 
 let rec remove x a =
   []
