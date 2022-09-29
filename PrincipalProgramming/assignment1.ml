@@ -27,8 +27,8 @@ let rec remove_stutter l =
   | x :: [] -> x :: []
   | x :: y :: t -> if x = y then remove_stutter (y :: t)
   else x :: remove_stutter (y :: t);;
-  remove_stutter [1;2;2;3;1;1;1;4;4;2;2];;
 
+  remove_stutter [1;2;2;3;1;1;1;4;4;2;2];;
 
 (*******************)
 (* Problem 4: sets *)
@@ -46,7 +46,7 @@ let rec subset a b =
   | [] -> true
   | h::t -> if (elem h b) then (subset t b) else false;;
 
-  subset [5] [2;3;5;7;9] = true
+  subset [5] [2;3;5;7;9];;
 
 let rec eq a b =
   (subset a b) && (subset b a);;
@@ -54,13 +54,24 @@ let rec eq a b =
   eq [5;3;2;9;7] [2;3;5;7;9]
 
 let rec remove x a =
-  []
+  match a with 
+  | [] ->  []
+  | h::t -> if h = x then (remove x t) else ( h :: remove x t);;
 
-let rec union a b =
+  remove 5 [2;3;5;7;9];;
+
+let rec union a b = 
   []
 
 let rec diff a b =
-  []
+  match a, b with
+  | [], [] -> []
+  | h :: t, [] -> a
+  | [], h::t -> a
+  | _ :: _ , h :: t -> diff (remove h a) t;;
+
+    
+  diff [1;3;2] [2;3];;
 
 (*****************************************************)
 (* Problem 5: Digital Roots and Additive Persistence *)
