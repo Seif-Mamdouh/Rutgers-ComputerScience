@@ -5,7 +5,6 @@
 let rec range num1 num2 =
   if num1 > num2 then []
   else num1 :: range (num1 + 1) num2;;
-
   range 2 5;;
 (**********************)
 (* Problem 2: flatten *)
@@ -16,6 +15,7 @@ let rec range num1 num2 =
 let rec flatten = function
   [] -> []
   | l :: r -> l @ flatten r;;
+
   flatten [[1;2;3];[4;5;6]]
 
 (*****************************)
@@ -60,18 +60,28 @@ let rec remove x a =
 
   remove 5 [2;3;5;7;9];;
 
-let rec union a b = 
-  []
 
-let rec diff a b =
+
+  let rec diff a b =
   match a, b with
   | [], [] -> []
   | h :: t, [] -> a
   | [], h::t -> a
   | _ :: _ , h :: t -> diff (remove h a) t;;
 
-  
-  diff [1;3;2] [2;3];;
+let union a b = 
+  match a, b with 
+  | [] , [] -> []
+  | h :: t, [] -> a
+  | [], h :: t -> b
+  | x :: y, h :: t -> a @ diff b a;;
+
+  (* union [2;3;5] [];; *)
+  union [1;2] [3;5];;
+  union [5;2] [3;7;9];;
+  union [2;3;9] [2;7;9];;
+
+  (* diff [1;3;2] [2;3];; *)
 
 (*****************************************************)
 (* Problem 5: Digital Roots and Additive Persistence *)
@@ -84,7 +94,12 @@ let rec diff a b =
  *)
 
 let rec digitsOfInt n =
-  []
+  if n <= 0 then
+		[] (*we want to return empty list if n is a negative number*)
+	else
+		digitsOfInt (n / 10) @ (n mod 10) :: [];; (*turn digit into list then append them all together*)
+
+    digitsOfInt 3124 = [3;1;2;4];;
 
 
 (* From http://mathworld.wolfram.com/AdditivePersistence.html
@@ -99,10 +114,39 @@ let rec digitsOfInt n =
  *)
 
 let additivePersistence n =
-  (-1)
+  	if n < 10 then
+		0
+	else begin
+		let rec persistenceHelper n = begin
+			let rec addDigits n =
+				if n <= 0 then
+					0
+				else
+					((n mod 10) + addDigits (n / 10)) in
+				let x = addDigits n in
+					if x > 9 then
+						1 + persistenceHelper x
+					else
+						1 
+		end in persistenceHelper n;
+	end;;
+
+    additivePersistence 9876;;
 
 let digitalRoot n =
-  (-1)
+  	let rec digitalRootHelper n = begin
+		if n <= 0 then
+			0
+		else
+			let x = ((n mod 10) + digitalRootHelper (n / 10)) in
+				if (x / 10) >= 1 then
+					digitalRootHelper x
+				else
+					x 
+	end in digitalRootHelper n;;
+
+
+  digitalRoot 9876;;
 
 (********)
 (* Done *)
