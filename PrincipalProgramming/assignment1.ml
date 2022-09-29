@@ -94,12 +94,12 @@ let union a b =
  *)
 
 let rec digitsOfInt n =
-  if n <= 0 then
-		[] (*we want to return empty list if n is a negative number*)
-	else
-		digitsOfInt (n / 10) @ (n mod 10) :: [];; (*turn digit into list then append them all together*)
+  if n <= 0 then [] else
+
+    digitsOfInt(n / 10) @ (n mod 10) :: [];;
 
     digitsOfInt 3124 = [3;1;2;4];;
+    digitsOfInt 352663 = [3;5;2;6;6;3];;
 
 
 (* From http://mathworld.wolfram.com/AdditivePersistence.html
@@ -114,22 +114,20 @@ let rec digitsOfInt n =
  *)
 
 let additivePersistence n =
-  	if n < 10 then
-		0
-	else begin
-		let rec persistenceHelper n = begin
-			let rec addDigits n =
-				if n <= 0 then
-					0
-				else
-					((n mod 10) + addDigits (n / 10)) in
-				let x = addDigits n in
-					if x > 9 then
-						1 + persistenceHelper x
-					else
-						1 
-		end in persistenceHelper n;
-	end;;
+  if n < 10 then 0
+  
+  else begin
+    let rec helper n = begin
+      let rec addDigits n =
+        if n <= 0 then 0
+
+        else (( n mod 10) + addDigits (n/10)) in
+        let x = addDigits n in if x > 9 then 1 + helper x
+        else 1 
+      end in helper n;
+    
+    end;;
+
 
     additivePersistence 9876;;
 
@@ -145,8 +143,8 @@ let digitalRoot n =
 					x 
 	end in digitalRootHelper n;;
 
+  digitalRoot 9876 = 3;;
 
-  digitalRoot 9876;;
 
 (********)
 (* Done *)
@@ -254,3 +252,18 @@ let main () =
   Printf.printf ("%d out of 9 programming questions are incorrect.\n") (!error_count)
 
 let _ = main()
+
+
+
+
+
+  	(* let rec digitalRootHelper n = begin
+		if n <= 0 then
+			0
+		else
+			let x = ((n mod 10) + digitalRootHelper (n / 10)) in
+				if (x / 10) >= 1 then
+					digitalRootHelper x
+				else
+					x 
+	end in digitalRootHelper n;; *)
