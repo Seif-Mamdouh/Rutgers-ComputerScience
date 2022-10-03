@@ -5,11 +5,22 @@ Imperative Programming:
 
     not mutable
 
+    Imperative Programming is basically developer writes a code that specifies the steps that the computer to 
+    take to accomplish the operation or the program.
+
+    
+
 Functional Programming:
     Functional programming languages are designed on the concept of mathematical 
     functions that use conditional expressions and recursion to perform computation.
 
     they can be mutated
+
+    Functional Programming is to create or support functional approach to solve a problem.
+    Functional programming is a form of declarative programming. 
+
+    Functional programming involves composing the problem as set of functions to be executed
+
 
 
 OCaml type  Range
