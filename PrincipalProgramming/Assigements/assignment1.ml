@@ -252,18 +252,3 @@ let main () =
   Printf.printf ("%d out of 9 programming questions are incorrect.\n") (!error_count)
 
 let _ = main()
-
-
-
-
-
-  	(* let rec digitalRootHelper n = begin
-		if n <= 0 then
-			0
-		else
-			let x = ((n mod 10) + digitalRootHelper (n / 10)) in
-				if (x / 10) >= 1 then
-					digitalRootHelper x
-				else
-					x 
-	end in digitalRootHelper n;; *)
