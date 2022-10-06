@@ -30,3 +30,8 @@ let rec map f lst =
   let double x = x * 2;;
 
   let fs = [neg; sub1; double] in map (fun x -> map x lst) fs;;
+
+
+
+
+  let is_even x = ( x mod 2 = 0) in map is_even [1;2;3;4;5];;
