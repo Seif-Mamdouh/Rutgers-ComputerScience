@@ -31,8 +31,12 @@ let fib_tailrec n =
 let assoc_list lst =
   []
 
-let ap fs args =
-  []
+(* let rec ap fs args = *)
+  let ap fs args =
+  List.fold_left 
+    (fun a f -> a @ (List.map f args)) [] fs;;
+
+    ap [(fun x -> x^"?");(fun x->x^"!")] ["foo";"bar"];;
 
 let maxl2 lst = 
   (-1)
