@@ -3,7 +3,7 @@ open List
 let count123 l =
   ((-1),(-1),(-1))
   
-  (* Helper function tak a list and a tuple of 
+  (* Helper function take a list and a tuple of 
     then call the helper function form the origanl function with set to 
     zero zero zero and iterate throiugh the list normally and pattern match 
     tuple and list send in a new value based on the curent head  *)
@@ -18,7 +18,15 @@ let buckets p l =
   []
 
 let fib_tailrec n =
-  0
+  let rec helper n (a,b) = 
+  if n = 0 then a
+  else if n = 1 then b
+  else helper (n - 1) (b, a + b) in 
+  
+  helper n (0,1);;
+  
+  fib_tailrec 50;;
+
 
 let assoc_list lst =
   []
