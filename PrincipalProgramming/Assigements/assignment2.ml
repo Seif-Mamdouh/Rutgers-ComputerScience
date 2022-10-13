@@ -1,18 +1,30 @@
 open List
 
 let count123 l =
-  ((-1),(-1),(-1))
-  
+  let rec count123_helper lst tup = 
+    match lst, tup with
+    [], (a,b,c) -> (a,b,c)
+    | h :: t, (a,b,c) -> if h = 1 then count123_helper t (a + 1, b, c)
+    else if h = 2 then count123_helper t (a, b + 1, c)
+    else if h = 3 then count123_helper t (a, b, c + 1) 
+    else count123_helper t (a,b,c)
+  in
+  count123_helper l (0,0,0);;
+
+
+  count123 [3;4;2;1;3];;
   (* Helper function take a list and a tuple of 
     then call the helper function form the origanl function with set to 
     zero zero zero and iterate throiugh the list normally and pattern match 
     tuple and list send in a new value based on the curent head  *)
 
 let rec n_times (f, n, v) =
-   if n > 0 then n_times (f, n-1, (f v))
+
+  if n > 0 then n_times(f , n - 1, (f v)) 
   else v;;
 
   n_times ((fun x-> x+1), 50, 0);;
+
 
 let buckets p l = 
   []
@@ -38,27 +50,26 @@ let assoc_list lst =
 
     ap [(fun x -> x^"?");(fun x->x^"!")] ["foo";"bar"];;
 
-(* let rec maxl2 l = 
-(-1) *)
+let rec maxl2 l = 
+(-1)
 
 (* let max12 args =  *)
 
-let f (m, acc) h = 
-  let m = max m (acc + h) in 
+let f (m, acc) h =  
+  [];;
+
+  (* let m = max m (acc + h) in 
   let x = if acc < 0 then 0 
   else acc in (m, x + h);;
 
   let submax lst = 
     let (max_so_far, max_current) = 
-    List.fold_left f (0,0) lst in max_so_far;;
+    List.fold_left f (0,0) lst in max_so_far;; *)
 
+    (* use let def 
+       use the max example on the lecture *)
 
-    submax [1; 10; 2; 100; 3; 400];;
-
-
-  (* damn *)
-
-
+    (* submax [1; 10; 2; 100; 3; 400];; *)
 
 type 'a tree = Leaf | Node of 'a tree * 'a * 'a tree
 
@@ -79,6 +90,8 @@ let rec fold_inorder f acc t =
 
 let levelOrder t =
   []
+
+  (* draw out the binary tree *)
 
 
 (********)
@@ -172,3 +185,6 @@ let main () =
   else Printf.printf ("%d out of 9 programming questions are incorrect.\n") (!error_count)
 
 let _ = main()
+
+
+
