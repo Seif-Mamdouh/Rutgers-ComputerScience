@@ -35,7 +35,6 @@ let fib_tailrec n =
   if n = 0 then a
   else if n = 1 then b
   else helper (n - 1) (b, a + b) in 
-  
   helper n (0,1);;
   
   fib_tailrec 50;;
@@ -51,10 +50,26 @@ let assoc_list lst =
 
     ap [(fun x -> x^"?");(fun x->x^"!")] ["foo";"bar"];;
 
+
+let rec filter p = function 
+    | [] -> []
+    | h :: t -> if p h then h :: filter p t else filter p t;;
+
 let rec maxl2 l = 
     match l with
     | [] -> failwith "empty list"
-    | h::t -> List.fold_left max h t;;
+    | h::t -> List.fold_left max h t in
+
+    let max' lst = filter maxl2 lst in 
+
+    let rec helper l = 
+      match l with 
+      | [] -> failwith "empty list"
+      | h::t -> List.fold_left max h t in 
+
+      let max2' lst = filter helper lst in
+
+      let total int = max' + max2' in
 
   maxl2 [1;10;2;100;3;400];;
   (* maxl2 [];; *)
