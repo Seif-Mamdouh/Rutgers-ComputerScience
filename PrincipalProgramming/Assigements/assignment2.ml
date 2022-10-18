@@ -41,6 +41,8 @@ let buckets (f:'a->'a->bool) (lst:'a list): 'a list list =
   []->[]
   | ht::tl -> parse f tl [[ht]];;
 buckets ( = ) [1;2;3;4];;
+buckets ( = ) [1;2;3;4;2;3;4;3;4];;
+buckets (fun x y -> ( = ) (x mod 3) (y mod 3) ) [1;2;3;4;5;6];;
 
 
 let fib_tailrec n =
