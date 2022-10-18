@@ -27,22 +27,7 @@ let rec n_times (f, n, v) =
 
 
 let buckets (f:'a->'a->bool) (lst:'a list): 'a list list =
-  let rec find (find_f: 'a->'a->bool)(find_ht: 'a) (find_acc:'a list list):'a list list = 
-    match find_acc with
-    []-> [[find_ht]]
-    | head::tail -> match head with h::_-> if f h find_ht then (find_ht::head)::tail else head::(find f find_ht tail)
-  in
-  let rec parse (parse_f: 'a->'a->bool) (parse_lst:'a list) (parse_acc: 'a list list): 'a list list = 
-    match parse_lst with
-    [] -> parse_acc
-    | ht::tl -> parse f tl (find f ht parse_acc) 
-  in 
-  match lst with 
-  []->[]
-  | ht::tl -> parse f tl [[ht]];;
-buckets ( = ) [1;2;3;4];;
-buckets ( = ) [1;2;3;4;2;3;4;3;4];;
-buckets (fun x y -> ( = ) (x mod 3) (y mod 3) ) [1;2;3;4;5;6];;
+[];;
 
 
 let fib_tailrec n =
@@ -67,8 +52,14 @@ let assoc_list lst =
     ap [(fun x -> x^"?");(fun x->x^"!")] ["foo";"bar"];;
 
 let rec maxl2 l = 
-(-1)
-    (* use let def 
+    match l with
+    | [] -> failwith "empty list"
+    | h::t -> List.fold_left max h t;;
+
+  maxl2 [1;10;2;100;3;400];;
+  (* maxl2 [];; *)
+  
+  (* use let def 
        use the max example on the lecture *)
 
 type 'a tree = Leaf | Node of 'a tree * 'a * 'a tree
