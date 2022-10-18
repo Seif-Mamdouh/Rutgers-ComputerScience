@@ -26,8 +26,22 @@ let rec n_times (f, n, v) =
   n_times ((fun x-> x+1), 50, 0);;
 
 
-let buckets p l = 
-  []
+let buckets (f:'a->'a->bool) (lst:'a list): 'a list list =
+  let rec find (find_f: 'a->'a->bool)(find_ht: 'a) (find_acc:'a list list):'a list list = 
+    match find_acc with
+    []-> [[find_ht]]
+    | head::tail -> match head with h::_-> if f h find_ht then (find_ht::head)::tail else head::(find f find_ht tail)
+  in
+  let rec parse (parse_f: 'a->'a->bool) (parse_lst:'a list) (parse_acc: 'a list list): 'a list list = 
+    match parse_lst with
+    [] -> parse_acc
+    | ht::tl -> parse f tl (find f ht parse_acc) 
+  in 
+  match lst with 
+  []->[]
+  | ht::tl -> parse f tl [[ht]];;
+buckets ( = ) [1;2;3;4];;
+
 
 let fib_tailrec n =
   let rec helper n (a,b) = 
