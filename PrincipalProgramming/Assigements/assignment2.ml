@@ -68,24 +68,8 @@ let assoc_list lst =
 
 let rec maxl2 l = 
 (-1)
-
-(* let max12 args =  *)
-
-let f (m, acc) h =  
-  [];;
-
-  (* let m = max m (acc + h) in 
-  let x = if acc < 0 then 0 
-  else acc in (m, x + h);;
-
-  let submax lst = 
-    let (max_so_far, max_current) = 
-    List.fold_left f (0,0) lst in max_so_far;; *)
-
     (* use let def 
        use the max example on the lecture *)
-
-    (* submax [1; 10; 2; 100; 3; 400];; *)
 
 type 'a tree = Leaf | Node of 'a tree * 'a * 'a tree
 
