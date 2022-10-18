@@ -51,31 +51,19 @@ let assoc_list lst =
     ap [(fun x -> x^"?");(fun x->x^"!")] ["foo";"bar"];;
 
 
-let rec filter p = function 
-    | [] -> []
-    | h :: t -> if p h then h :: filter p t else filter p t;;
+let filter_out x lst = 
+  List.fold_left (fun acc y -> if y = x then acc else y::acc)  [] lst
 
-let rec maxl2 l = 
+let maxl2 l = 
     match l with
-    | [] -> failwith "empty list"
-    | h::t -> List.fold_left max h t in
-
-    let max' lst = filter maxl2 lst in 
-
-    let rec helper l = 
-      match l with 
-      | [] -> failwith "empty list"
-      | h::t -> List.fold_left max h t in 
-
-      let max2' lst = filter helper lst in
-
-      let total int = max' + max2' in
+    | [] -> 0
+    | h::t -> let res1 = fold_left max h t in 
+    match (filter_out res1 l) with
+    | [] -> 0
+    | h::t -> let res2 = fold_left max h t in 
+    res1 + res2;;
 
   maxl2 [1;10;2;100;3;400];;
-  (* maxl2 [];; *)
-  
-  (* use let def 
-       use the max example on the lecture *)
 
 type 'a tree = Leaf | Node of 'a tree * 'a * 'a tree
 
@@ -191,6 +179,3 @@ let main () =
   else Printf.printf ("%d out of 9 programming questions are incorrect.\n") (!error_count)
 
 let _ = main()
-
-
-
