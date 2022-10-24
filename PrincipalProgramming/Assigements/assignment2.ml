@@ -26,8 +26,12 @@ let rec n_times (f, n, v) =
   n_times ((fun x-> x+1), 50, 0);;
 
 
-let buckets (f:'a->'a->bool) (lst:'a list): 'a list list =
-[];;
+(* let buckets p l =
+  let rec buckets_helper p =
+    match p with 
+    [] -> []
+    | h::t -> if h  *)
+
 
 
 let fib_tailrec n =
@@ -40,8 +44,22 @@ let fib_tailrec n =
   fib_tailrec 50;;
 
 
-let assoc_list lst =
-  []
+(* let assoc_list lst = *)
+  let rec assoc_list lst = 
+    let rec assoc_helper x ls = 
+      match ls with 
+      [] -> (0, [])
+      | y :: ys -> let (a,bs) = assoc_helper x ys 
+    in
+    if x = y then (a + 1, bs) else (a,y::bs) 
+  in
+  match lst with
+    [] -> []
+  | x::xs -> let (a,bs) = assoc_helper x (x::xs)
+      in
+      (x,a)::assoc_list bs;;
+
+
 
 (* let rec ap fs args = *)
   let ap fs args =
