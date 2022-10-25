@@ -26,13 +26,24 @@ let rec n_times (f, n, v) =
   n_times ((fun x-> x+1), 50, 0);;
 
 
-(* let buckets p l =
-  let rec buckets_helper p =
-    match p with 
-    [] -> []
-    | h::t -> if h  *)
+let rec choose_equivalent p a lst =
+  match lst with
+  | [] -> []
+  | h::t -> if p a h then
+    h :: choose_equivalent p a t
+    else choose_equivalent p a t
 
+let rec remove_equivalent p a lst =
+  match lst with
+  | [] -> []
+  | h::t -> if p a h then
+    remove_equivalent p a t
+    else h :: remove_equivalent p a t
 
+let rec buckets p l =
+  match l with
+  | [] -> []
+  | h::t -> choose_equivalent p h l :: buckets p (remove_equivalent p h l)
 
 let fib_tailrec n =
   let rec helper n (a,b) = 
@@ -70,7 +81,7 @@ let fib_tailrec n =
 
 
 let filter_out x lst = 
-  List.fold_left (fun acc y -> if y = x then acc else y::acc)  [] lst
+  List.fold_left (fun acc y -> if y = x then acc else y::acc) [] lst
 
 let maxl2 l = 
     match l with
