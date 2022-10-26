@@ -104,12 +104,18 @@ let rec insert tree x =
      else if x < y then Node(insert l x, y, r)
      else Node(l, y, insert r x)
 
+     let construct l = 
+      List.fold_left (fun acc x -> insert acc x ) Leaf l
+
+
 let construct l =
   List.fold_left (fun acc x -> insert acc x) Leaf l
 
 
 let rec fold_inorder f acc t =
-  acc
+  match t with 
+  |Node (l,y,r) -> fold_inorder f (f(fold_inorder f acc l) y) r
+  |Leaf -> acc;;
 
 let levelOrder t =
   []
