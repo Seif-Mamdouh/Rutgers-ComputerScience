@@ -34,52 +34,129 @@ let print_env_str (env : environment): string =
 
 (* evaluate an arithmetic expression in an environment *)
 (* let rec eval_expr (e : exp) (env : environment) : value = *)
+
+        let rec lookup env x = match env with
+          [] -> raise UndefinedVar| (y,v)::env' ->
+          if x = y then v else lookup env' x
+
 let rec eval_expr (e : exp) (env : environment) : value =
+
   match e with 
+
+
+    | Number (e1) -> Int_Val(e1)
+
+    | True -> Bool_Val(true)
+
+    | False -> Bool_Val(false)
+
+    | Var (e1) -> lookup env e1
+
+    | Or (e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in
+      (match a1, a2 with 
+      Bool_Val a1, Bool_Val a2 -> Bool_Val (a1 || a2) 
+      | _ -> raise TypeError)
+      
+      
+    | And (e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in
+      (match a1, a2 with 
+      Bool_Val a1, Bool_Val a2 -> Bool_Val (a1 && a2) 
+      | _ -> raise TypeError)
+
+
+    | Not e1 -> 
+      let a1 = eval_expr e1 env in 
+      (match a1 with 
+      Bool_Val a1 -> Bool_Val (not a1)
+      | _ -> raise TypeError
+      )
+
+    | Lt(e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in
+      (match a1, a2 with 
+      Int_Val a1, Int_Val a2 -> Bool_Val (a1 < a2)
+      | _ -> raise TypeError)
+
+    | Leq (e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in
+      (match a1, a2 with 
+      Int_Val a1, Int_Val a2 -> Bool_Val (a1 <= a2)
+      | _ -> raise TypeError)
+
+    | Eq (e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in
+      (match a1, a2 with 
+      Int_Val a1, Int_Val a2 -> Bool_Val (a1 = a2)
+      | _ -> raise TypeError)
+
+    | Fun (s1, e1) -> Closure (env, s1, e1)
+
+    | App(e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in
+      (match a1 with 
+      | Closure(env', x, e) -> eval_expr e ((x, a2) :: env')
+      | _ -> raise TypeError
+      )
+
     | Plus (e1, e2) -> 
       let a1 = eval_expr e1 env in 
       let a2 = eval_expr e2 env in 
       (match a1, a2 with 
-      | Int_Val i, Int_Val j -> Int_Val(a1 + a2) 
+      | Int_Val a1, Int_Val a2 -> Int_Val(a1 + a2) 
       | _ -> raise TypeError
       )
 
-      
-  
-  
-  
-  (* Int_Val 0;; *)
+    | Minus (e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in 
+      (match a1, a2 with 
+      | Int_Val a1, Int_Val a2 -> Int_Val(a1 - a2) 
+      | _ -> raise TypeError
+      )
 
-(* let rec eval env e =
-  match e with
-  Ident x -> lookup env x
-  | Val v -> v
-  | Plus (e1,e2) ->
-    let Int n1 = eval env e1 in
-    let Int n2 = eval env e2 in
-    let n3 = n1+n2 in
-    Int n3
-    | Let (x,e1,e2) ->
-      let v1 = eval env e1 in
-      let env’ = extend env x v1 in let v2 = eval env’ e2 in v2
-      | Eq0 e1 -> let Int n = eval env e1 in
-      if n=0 then Bool true else Bool false
-      | If (e1,e2,e3) ->
-        let Bool b = eval env e1 in if b then eval env e2
-        else eval env e3 *)
+    | Times (e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in 
+      (match a1, a2 with 
+      | Int_Val a1, Int_Val a2 -> Int_Val(a1 * a2) 
+      | _ -> raise TypeError
+      )
 
+    | Div (e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in 
+      (match a1, a2 with 
+      | Int_Val a1, Int_Val a2 -> Int_Val(a1 / a2) 
+      | _ -> raise TypeError
+      )
 
+    | Mod (e1, e2) -> 
+      let a1 = eval_expr e1 env in 
+      let a2 = eval_expr e2 env in 
+      (match a1, a2 with 
+      | Int_Val a1, Int_Val a2 -> Int_Val(a1 mod a2) 
+      | _ -> raise TypeError
+      )
 
-(* match e with
-| Plus (e1, e2) ->
-  let r1 = eval_expr e1 env in
-  let r2 = eval_expr e2 env in
-  (match r1, r2 with
-  | Int_Val i, Int_Val j -> ...
-  | _ -> ...)  *)
-  (* The parentheses are needed to delimit the scope of the two pattern-matchings *)
 
 
 (* evaluate a command in an environment *)
 let rec eval_command (c : com) (env : environment) : environment =
-    []
+
+  match c with 
+
+  | Skip -> env
+
+  | Comp (c1, c2) -> 
+    let env' = eval_command c1 env in 
+    let update = eval_command c2 env' in 
+    update
+    
