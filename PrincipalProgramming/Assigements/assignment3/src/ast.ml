@@ -27,7 +27,7 @@ and environment = (string * value) list
 
 type com =
   | While of exp * com
-  | For   of exp * com
+  | For of exp * com
   | Cond of exp * com * com
   | Comp of com * com
   | Assg of string * exp
