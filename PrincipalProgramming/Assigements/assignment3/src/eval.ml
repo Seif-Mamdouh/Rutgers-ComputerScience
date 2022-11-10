@@ -147,11 +147,12 @@ let rec eval_expr (e : exp) (env : environment) : value =
       )
 
 
-
+    (* int i; *)
 (* evaluate a command in an environment *)
 let rec eval_command (c : com) (env : environment) : environment =
-
   match c with 
+  
+
 
   | Skip -> env
 
@@ -159,4 +160,20 @@ let rec eval_command (c : com) (env : environment) : environment =
     let env' = eval_command c1 env in 
     let update = eval_command c2 env' in 
     update
-    
+
+  | Declare (c1, c2) -> 
+    (match c1 with
+			| Int_Type -> (c2, Int_Val(0)) :: env 
+			| Bool_Type  -> (c2, Bool_Val(false)) :: env
+      | Lambda_Type -> (c2, Closure (env, "x", Var "x")):: env)
+
+  | Assg (c1, c2) -> 
+    let vicky = lookup env c1 in
+    let marissa = eval_expr c2 env in 
+    (match vicky, marissa with 
+    | Int_Val vicky, Int_Val marissa -> (c1, Int_Val(marissa)) :: env
+    | Bool_Val vicky, Bool_Val marissa -> (c1, Bool_Val(marissa)) :: env
+    | Closure(env', seif, esra), Closure(env'', kassi, aleena) -> (c1, Closure (env'', kassi, aleena)) :: env
+    | _ -> raise TypeError)
+
+
