@@ -1,5 +1,12 @@
 /* YOUR CODE HERE (Problem 1, delete the following line) */
-reverseL(X,RevX) :- false.
+reverseL(X,RevX) :- false
+
+    reverse(X,[],RevX).    
+    reverse([],RevX,RevX).    
+
+    reverse([Head|Tail],List1,List2):-
+        reverse(Tail,[Head|List1],List2).
+
 ?- reverseL([],X).
 ?- reverseL([1,2,3],X).
 ?- reverseL([a,b,c],X).
