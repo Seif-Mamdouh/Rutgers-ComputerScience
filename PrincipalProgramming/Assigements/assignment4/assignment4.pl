@@ -1,18 +1,29 @@
 /* YOUR CODE HERE (Problem 1, delete the following line) */
-reverseL(X,RevX) :- false
+% reverseL(X,RevX) :- 
 
-    reverse(X,[],RevX).    
-    reverse([],RevX,RevX).    
+reverseL([],[]).
+reverseL([H|T],L):-
+    reverseL(T,R),
+    append(R,[H],L).
 
-    reverse([Head|Tail],List1,List2):-
-        reverse(Tail,[Head|List1],List2).
 
 ?- reverseL([],X).
 ?- reverseL([1,2,3],X).
 ?- reverseL([a,b,c],X).
 
 /* YOUR CODE HERE (Problem 2, delete the following line) */
-remove_duplicates(L1,L2) :- false.
+% remove_duplicates(L1,L2) :- 
+
+delMember(_, [], []) :- !.
+delMember(X, [X|X1], Y) :- !, delMember(X, X1, Y).
+delMember(X, [T|X1], Y) :- !, delMember(X, X1, Y2), append([T], Y2, Y).
+
+%predicate to delete duplicates from the list
+remove_duplicates([], []).
+remove_duplicates([X|Y], Z):- delMember(X, Y, Y1), remove_duplicates(Y1, Z1), append([X], Z1, Z).
+
+remove_duplicates([], []).
+remove_duplicates([X|Y], Z):- delMember(X, Y, Y1), remove_duplicates(Y1, Z1), append([X], Z1, Z).
 
 ?- remove_duplicates([1,2,3,4,2,3],X).
 ?- remove_duplicates([1,4,5,4,2,7,5,1,3],X).
@@ -26,7 +37,13 @@ assoc_list(L,AL) :- false.
 ?- assoc_list([1,1,4,2,2,2,3,1,1,3,1], X).
 
 /* YOUR CODE HERE (Problem 4, delete the following line) */
-intersectionL(L1,L2,L3) :- false.
+% intersectionL(L1,L2,L3) :- false.
+intersection([], _, []):- !. %if first list is empty
+intersection(_, [], []):- !. %if second list is empty
+%if X is an element in first list and second list, we add it to third list
+intersection([X|T1], L2, [X|T3]):- member(X, L2), intersection(T1, L2, T3), !.
+%else, we recurse with X removed from first list
+intersection([_|T1], L2, L3):- intersection(T1, L2, L3).
 
 ?- intersectionL([1,2,3,4],[1,3,5,6],[1,3]).
 ?- intersectionL([1,2,3,4],[1,3,5,6],X).
