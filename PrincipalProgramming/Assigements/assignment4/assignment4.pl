@@ -84,19 +84,18 @@ merge(L1, [Y|L2], Z):- merge(L1, L2, Z1), append([Y], Z1, Z).
 /* YOUR CODE HERE (Problem 8, delete the following line) */
 % mergesort(L,SL) :- false.
 
-split_in_half(Xs, Ys, Zs):-
-    length(Xs, Len), 
-    Half is Len // 2, % // denotes integer division, rounding down 
+split_in_half(Xs, Ys, Zs) :-
+    length(Xs, Len),
+    Half is Len // 2, % // denotes integer division, rounding down
     split_at(Xs, Half, Ys, Zs).
-%split_at(Xs, Half, Ys, Zs) divides Xs into a list Ys of length N
-% and a list of Ys containing the part after the first N.
-split_at(Xs, N, Ys, Zs):-
+% split_at(Xs, N, Ys, Zs) divides Xs into a list Ys of length N
+% and a list Ys containing the part after the first N.
+split_at(Xs, N, Ys, Zs) :-
     length(Ys, N),
-    apend(Ys, Zs, Xs).
-mergesort(Xs, S):- 
+    append(Ys, Zs, Xs).
+mergesort(Xs, S) :-
     length(Xs, Len),
     (Len =< 2 -> S = Xs; split_in_half(Xs, Ys, Zs), mergesort(Ys, SY), mergesort(Zs, SZ), merge(SY, SZ, S)).
-
 
 ?- mergesort([3,2,1],X).
 ?- mergesort([1,2,3],Y).
