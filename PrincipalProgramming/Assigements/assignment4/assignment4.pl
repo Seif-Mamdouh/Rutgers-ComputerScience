@@ -60,7 +60,23 @@ prefix(P,L) :- append(P,_,L).
 suffix(S,L) :- append(_,S,L).
 
 /* YOUR CODE HERE (Problem 6, delete the following line) */
-partition(L,P,S) :- false.
+% partition(L,P,S) :- false.
+
+prefix(P,L) :- append(P,X,L).                                                       
+suffix(S,L) :- append(X,S,L). 
+
+partition([],[],[]).
+partition([H],[H],[]).
+partition(L, P, S) :-
+    length(L, N),
+    Plen is div(N,2),
+    Slen is N-div(N,2),
+    length(Pre, Plen),
+    length(Suff, Slen),
+    prefix(Pre, L),
+    suffix(Suff, L),
+    P is Pre,
+    S is Suff.
 
 ?- partition([a],[a],[]).
 ?- partition([1,2,3],[1],[2,3]).
