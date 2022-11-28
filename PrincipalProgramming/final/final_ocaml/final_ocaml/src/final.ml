@@ -109,8 +109,12 @@ let substitute_in_clause s c =
 
 exception Not_unifiable
 
-let unify t1 t2 =
-  Substitution.empty
+(* let unify t1 t2 =
+  Substitution.empty *)
+
+  let rec filter_unifier goalvars unif = match unif with
+      |[] -> []
+      |((v,sub)::xs) -> if (find goalvars v) then ((v,sub)::(filter_unifier goalvars xs)) else (filter_unifier goalvars xs);;
 
 
 (* ################# *)
