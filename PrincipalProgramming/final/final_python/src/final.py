@@ -5,13 +5,17 @@ from functools import reduce
 import sys
 import random
 
+
 class Not_unifiable(Exception):
 	pass
+
 
 '''
 Please read prolog_structures.py for data structures
 that represent Prolog terms, rules, and goals.
 '''
+
+
 class Interpreter:
 	def __init__(self):
 		pass
@@ -23,7 +27,8 @@ class Interpreter:
 	Please see the lecture note Control in Prolog to revisit the concept of
 	occurs-check.
 	'''
-	def occurs_check (self, v : Variable, t : Term) -> bool:
+
+	def occurs_check(self, v: Variable, t: Term) -> bool:
 		if isinstance(t, Variable):
 			return v == t
 		elif isinstance(t, Function):
@@ -32,7 +37,6 @@ class Interpreter:
 					return True
 			return False
 		return False
-
 
 	'''
 	Problem 1
@@ -45,11 +49,23 @@ class Interpreter:
 	The result must be saved in a Python set. The type of each element (a Prolog Variable)
 	in the set is Variable.
 	'''
-	def variables_of_term (self, t : Term) -> set :
-		return set()
+
+	def variables_of_term(self, t: Term) -> set:
+     terms = set()
+     for x in t.terms:
+         if isinstance(x, Variable):
+             terms.add(x)
+             return terms
+		# return set()
+  
 
 	def variables_of_clause (self, c : Rule) -> set :
-		return set()
+     rules = set()
+     for x in c.head.terms:
+         if isinstance(x, Variable):
+             rules.add(x)
+    		return rules
+		# return set()
 
 
 	'''
@@ -65,10 +81,14 @@ class Interpreter:
 	Please use Python dictionary to represent a subsititution map.
 	'''
 	def substitute_in_term (self, s : dict, t : Term) -> Term:
-		return t
+     for count, x in enumerate(t.terms):
+         t.terms[count] = s.get(x,x)
+         return t
 
 	def substitute_in_clause (self, s : dict, c : Rule) -> Rule:
-		return c
+     for count, x in enumerate(c.head.terms):
+         c.head.terms[count] = s.get(x,x)
+         return c
 
 
 	'''
@@ -118,7 +138,7 @@ class Interpreter:
 
 	'''
 	Challenge Problem
-
+ 
 	det_query (program, goal) where
 		the first argument is a program which is a list of Rules.
 		the second argument is a goal which is a list of Terms.
