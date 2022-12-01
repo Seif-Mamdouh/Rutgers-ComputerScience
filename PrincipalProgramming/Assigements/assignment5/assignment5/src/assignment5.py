@@ -7,8 +7,20 @@ import traceback
 ### Problem  1 ##
 #################
 
-def assoc_list (l):
-    return []
+
+# def assoc_list(l):
+#     return []
+
+def assoc_list(l):
+    cnt = [reduce(lambda x, y: x + (1 if y == p else 0), l, 0) for p in l]
+# using reduce to count all occurance of each and every element
+# zipping l and cnt then making a set
+# to delete repeating values
+# then turning the set to a list
+    return list(set(zip(l,cnt)))
+result = assoc_list([1, 2, 2, 1, 3])
+result.sort(key=lambda x:x[0]) # sort the result by the first element of a tuple
+assert(result == [(1, 2), (2, 2), (3, 1)])
 
 #################
 ### Problem  2 ##
@@ -62,9 +74,25 @@ class TreeNode:
 ### Problem  3 ##
 #################
 
+# def level_order(root: TreeNode):
+#     return []
 def level_order(root: TreeNode):
-    return []
-
+    if not root:
+        return []
+    queue = [root]
+    res = []
+    level = 0
+    while queue:
+        res.append([])
+        for _ in range(len(queue)):
+            node = queue.pop(0)
+            res[level].append(node.val)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        level += 1
+    return res
 
 #################
 ### Problem  4 ##
@@ -72,6 +100,8 @@ def level_order(root: TreeNode):
 
 def pathSum(root: TreeNode, targetSum: int) -> List[List[int]]:
     return []
+
+
 
 
 #################
