@@ -98,9 +98,38 @@ def level_order(root: TreeNode):
 ### Problem  4 ##
 #################
 
-def pathSum(root: TreeNode, targetSum: int) -> List[List[int]]:
-    return []
+# def pathSum(root: TreeNode, targetSum: int) -> List[List[int]]:
+#     return []
 
+
+def dfs(root: TreeNode, target: int, prev_sum: int, my_list: list):
+    if not root:
+        return
+    
+    prev_sum += root.val
+    my_list.append(root.val)
+
+    if prev_sum == target and root.left == None and root.right == None:
+        res.append(my_list[:])
+
+    dfs(root.left, target, prev_sum, my_list)
+    dfs(root.right, target, prev_sum, my_list)
+    my_list.pop()
+
+
+def pathSum(sroot: TreeNode, targetSum: int):  # -> List[List[int]]:
+    dfs(sroot, targetSum, 0, [])
+    return res
+
+
+root_1 = TreeNode()
+root_1.list_to_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1])
+
+root_2 = TreeNode()
+root_2.list_to_tree([1, 2, 3])
+
+
+# assert (pathSum(root_1, 22) == [[5, 4, 11, 2], [5, 8, 4, 5]])
 
 
 
