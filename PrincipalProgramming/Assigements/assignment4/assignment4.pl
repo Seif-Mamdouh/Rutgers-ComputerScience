@@ -135,18 +135,19 @@ merge(L1, [Y|L2], Z):- merge(L1, L2, Z1), append([Y], Z1, Z).
 /* YOUR CODE HERE (Problem 8, delete the following line) */
 % mergesort(L,SL) :- false.
 
-split_in_half(Xs, Ys, Zs) :-
-    length(Xs, Len),
-    Half is Len // 2, % // denotes integer division, rounding down
-    split_at(Xs, Half, Ys, Zs).
-% split_at(Xs, N, Ys, Zs) divides Xs into a list Ys of length N
-% and a list Ys containing the part after the first N.
-split_at(Xs, N, Ys, Zs) :-
-    length(Ys, N),
-    append(Ys, Zs, Xs).
-mergesort(Xs, S) :-
-    length(Xs, Len),
-    (Len =< 2 -> S = Xs; split_in_half(Xs, Ys, Zs), mergesort(Ys, SY), mergesort(Zs, SZ), merge(SY, SZ, S)).
+
+mergesort([],[]).
+mergesort([A],[A]).
+mergesort([A,B|R],S) :- split([A,B|R],L1,L2), mergesort(L1,S1), mergesort(L2,S2), merge(S1,S2,S).
+
+split([],[],[]).
+split([A],[A],[]).
+split([A,B|R],[A|Ra],[B|Rb]) :- split(R,Ra,Rb).
+
+merge(A,[],A).
+merge([],B,B).
+merge([A|Ra],[B|Rb],[A|M]) :- A @=< B, merge(Ra,[B|Rb],M).
+merge([A|Ra],[B|Rb],[B|M]) :- A @> B, merge([A|Ra],Rb,M).
 
 ?- mergesort([3,2,1],X).
 ?- mergesort([1,2,3],Y).
