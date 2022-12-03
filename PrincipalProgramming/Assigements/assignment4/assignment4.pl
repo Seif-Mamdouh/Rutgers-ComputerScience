@@ -82,6 +82,7 @@ len([H | T], N) :- len(T,M), N is M+1.
 filter([H|T],H,T).
 filter([H|T],R,[H|S]) :- filter(T,R,S).
 
+% sjdnwjdn
 
 maxL3(L, X) :- len(L, N), N >= 3, maxlist(L, Max1), filter(L, Max1, L2), maxlist(L2, Max2), filter(L2, Max2, L3), maxlist(L3, Max3), X is Max1 + Max2 + Max3.  
 
