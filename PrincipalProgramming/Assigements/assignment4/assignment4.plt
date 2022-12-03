@@ -24,7 +24,7 @@ test('remove_duplicates3', [true(X == [ ])]) :- remove_duplicates([ ], X).
 
 test('assoc_list1', [true]) :- assoc_list([1], [1-1]).
 test('assoc_list2', [true]) :- assoc_list([1,1,2,2,2,3,1], [1-3, 2-3, 3-1]).
-test('assoc_list3', true(X == [1-5, 2-3, 3-2]) :- assoc_list([1,1,2,2,2,3,1,1,3,1], X).
+test('assoc_list3', true(X == [1-5, 2-3, 3-2])) :- assoc_list([1,1,2,2,2,3,1,1,3,1], X).
 
 
 :- end_tests(assoc_list).
