@@ -17,19 +17,29 @@ delMember(_, [], []) :- !.
 delMember(X, [X|X1], Y) :- !, delMember(X, X1, Y).
 delMember(X, [T|X1], Y) :- !, delMember(X, X1, Y2), append([T], Y2, Y).
 
-%predicate to delete duplicates from the list
+% %predicate to delete duplicates from the list
 remove_duplicates([], []).
 remove_duplicates([X|Y], Z):- delMember(X, Y, Y1), remove_duplicates(Y1, Z1), append([X], Z1, Z).
 
 remove_duplicates([], []).
 remove_duplicates([X|Y], Z):- delMember(X, Y, Y1), remove_duplicates(Y1, Z1), append([X], Z1, Z).
+
 
 ?- remove_duplicates([1,2,3,4,2,3],X).
 ?- remove_duplicates([1,4,5,4,2,7,5,1,3],X).
 ?- remove_duplicates([], X).
 
 /* Your CODE HERE (Problem 3, delete the following line) */
-assoc_list(L,AL) :- false.
+% assoc_list(L,AL) :- false.
+
+count(X, [], (X-1)).
+count(X, [H|T], (X-Times)) :- X=H, count(X, T, (X-V)), Times is V + 1.
+count(X, [_|T], (X-Times)) :- count(X,T,(X-Times)).
+
+assoc_list(List, X) :- assoc_list(List, [], [], As), reverseL(As, X).
+assoc_list([], Acc, _, Acc).
+assoc_list([H|T], Acc, Acc2, As):- not(member(H, Acc2)) -> count (H,T,X), assoc_list(T, [X|Acc], [H|Acc2], As); assoc_list(T, Acc, Acc2, As).
+
 
 ?- assoc_list([1], [1-1]).
 ?- assoc_list([1,1,2,2,2,3,1], [1-3, 2-3, 3-1]).
@@ -50,7 +60,31 @@ intersection([_|T1], L2, L3):- intersection(T1, L2, L3).
 ?- intersectionL([1,2,3],[4,3],[3]).
 
 /* YOUR CODE HERE (Problem 5, delete the following line) */
-maxL3(L,X) :- false.
+% maxL3(L,X) :- false.
+
+% maxlist([], []).
+% maxlist([X,Y| Rest], Max) :-
+%     maxlist([Y | Rest], MaxRest),
+%     max(X, MaxRest, Max).
+
+% max(X, Y, X) :- X >= Y.
+% max(X, Y, Y) :- X < Y. 
+
+
+maxlist([], R, R). %end
+maxlist([X|Xs], WK, R):- X >  WK, maxlist(Xs, X, R). %WK is Carry about
+maxlist([X|Xs], WK, R):- X =< WK, maxlist(Xs, WK, R).
+maxlist([X|Xs], R):- maxlist(Xs, X, R). %start
+
+len([],0).
+len([H | T], N) :- len(T,M), N is M+1.
+
+filter([H|T],H,T).
+filter([H|T],R,[H|S]) :- filter(T,R,S).
+
+
+maxL3(L, X) :- len(L, N), N >= 3, maxlist(L, Max1), filter(L, Max1, L2), maxlist(L2, Max2), filter(L2, Max2, L3), maxlist(L3, Max3), X is Max1 + Max2 + Max3.  
+
 
 ?- not(maxL3([1], X)).
 ?- maxL3([1,2,3,4], 9).
