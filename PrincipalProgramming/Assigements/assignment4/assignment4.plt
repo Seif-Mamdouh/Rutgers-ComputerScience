@@ -37,6 +37,9 @@ test('intersectionL1', [true]) :- intersectionL([1,2,3,4],[1,3,5,6],[1,3]).
 test('intersectionL2', [true(X == [1,3])]) :- intersectionL([1,2,3,4],[1,3,5,6],X).
 test('intersectionL3', [true]) :- intersectionL([1,2,3],[4,3],[3]).
 
+
+
+
 :- end_tests(intersectionL).
 
 
