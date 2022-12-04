@@ -144,3 +144,7 @@ merge([A|Ra],[B|Rb],[B|M]) :- A @> B, merge([A|Ra],Rb,M).
 ?- mergesort([3,2,1],X).
 ?- mergesort([1,2,3],Y).
 ?- mergesort([],Z).
+
+
+
+
