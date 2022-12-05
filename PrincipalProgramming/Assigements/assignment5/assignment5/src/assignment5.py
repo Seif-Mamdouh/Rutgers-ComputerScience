@@ -27,8 +27,28 @@ assert(result == [(1, 2), (2, 2), (3, 1)])
 #################
 
 
-def buckets(f, l):
-    return []
+# def buckets(f, l):
+#     return []
+
+def buckets (equiv, lst):
+    classes = []
+    
+    for index in range(len(lst)):
+        a = lst[index]
+        
+        for b in lst:
+            if equiv(a, b):
+                if len(classes) <= index: 
+                    classes.append([b])
+                else:
+                    classes[index] += [b]
+                    
+    for sublist in classes:
+        while classes.count(sublist) > 1:
+            rindex = classes[:: - 1].index(sublist)
+            del classes[len(classes) - 1 - rindex]
+            
+    return classes
 
 
 ###################################
@@ -102,31 +122,62 @@ def level_order(root: TreeNode):
 #     return []
 
 
-def dfs(root: TreeNode, target: int, prev_sum: int, my_list: list):
-    if not root:
-        return
+# def dfs(root: TreeNode, target: int, prev_sum: int, my_list: list):
+#     if not root:
+#         return
     
-    prev_sum += root.val
-    my_list.append(root.val)
+#     prev_sum += root.val
+#     my_list.append(root.val)
 
-    if prev_sum == target and root.left == None and root.right == None:
-        res.append(my_list[:])
+#     if prev_sum == target and root.left == None and root.right == None:
+#         res.append(my_list[:])
 
-    dfs(root.left, target, prev_sum, my_list)
-    dfs(root.right, target, prev_sum, my_list)
-    my_list.pop()
-
-
-def pathSum(sroot: TreeNode, targetSum: int):  # -> List[List[int]]:
-    dfs(sroot, targetSum, 0, [])
-    return res
+#     dfs(root.left, target, prev_sum, my_list)
+#     dfs(root.right, target, prev_sum, my_list)
+#     my_list.pop()
 
 
-root_1 = TreeNode()
-root_1.list_to_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1])
+# def pathSum(sroot: TreeNode, targetSum: int):  # -> List[List[int]]:
+#     dfs(sroot, targetSum, 0, [])
+#     return res
 
-root_2 = TreeNode()
-root_2.list_to_tree([1, 2, 3])
+
+# root_1 = TreeNode()
+# root_1.list_to_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1])
+
+# root_2 = TreeNode()
+# root_2.list_to_tree([1, 2, 3])
+
+def pathSum(root: TreeNode, targetSum: int):
+    def solve(root, path, paths, targetSum):
+        if root is None:
+            return
+        #check if it is the leaf node
+        if not root.left and not root.right:
+            #then check if the targetValue is matched
+            if targetSum == root.val:
+                path.append(root.val)
+                paths.append(path)
+                return
+
+        #call the left and right subtree
+        solve(root.left, path+[root.val], paths, targetSum-root.val)
+        solve(root.right, path+[root.val], paths, targetSum-root.val)
+
+        return paths
+    #check if the value of root is None
+    if root is None:
+        return
+
+    #now check if the root nodes is the leaf node if yes then return
+    if root.val == 1 and not root.left and not root.right:
+        if targetSum == 1:
+            return [[1]]
+
+    path = []
+    paths = []
+    #function for find the paths
+    return solve(root, path, paths, targetSum)
 
 
 # assert (pathSum(root_1, 22) == [[5, 4, 11, 2], [5, 8, 4, 5]])
