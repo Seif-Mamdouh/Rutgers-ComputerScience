@@ -149,6 +149,31 @@ let substitute_in_clause s c =
 
 exception Not_unifiable
 
+let rec unify t1 t2 u = 
+  let x = substitute_in_term u t1 in 
+  let y = substitute_in_term u t2 in
+  match x, y with
+  | Variable x', _ -> 
+    if occurs_check x y then 
+      u 
+    else
+      let u' = Substitution.map(fun t -> y) u in 
+      Substitution.add x y u' 
+      | _, Variable y' -> 
+        if occurs_check y x then u
+      else 
+        let u' = Substitution.map (fun t -> x) u in 
+        Substitution.add y x u'
+      | Constant x', Constant y' -> 
+        if x = y then 
+          u 
+        else 
+        raise Not_unifiable
+      | Function(_, hl1), Function(_, hl2) -> 
+        List.fold_left2 (fun u' h1 h2 -> unify h1 h2 u') u hl1 hl2
+      | _, _ -> raise Not_unifiable
+
+
 let unify t1 t2 =
   Substitution.empty
 
