@@ -71,12 +71,39 @@ let rec occurs_check v t =
 module VarSet = Set.Make(struct type t = term let compare = Pervasives.compare end)
 (* API Docs for Set : https://caml.inria.fr/pub/docs/manual-ocaml/libref/Set.S.html *)
 
-let rec variables_of_term t =
+(* let rec variables_of_term t =
   VarSet.empty
 
 let variables_of_clause c =
-  VarSet.empty
+  VarSet.empty *)
+let rec variables_of_term t =
+  (* VarSet.empty *)
+  match t with
+  |Constant _ -> VarSet.empty
+  |Function (_,y)->let rec vari p =
+    match p with
+    []->VarSet.empty
+    |h::t->(VarSet.union (variables_of_term h) (vari t))
+  in vari y
+  |x->VarSet.singleton x
+  let _ = assert (VarSet.equal (variables_of_term (func "f" [var "X"; var "Y"; const "a"]))
+  (VarSet.of_list [var "X"; var "Y"]))
+  let rec varia p =
+    match p with
+    []->VarSet.empty
+    |h::t->(VarSet.union (variables_of_term h) (varia t))
 
+
+let variables_of_clause c =
+  (* VarSet.empty *)
+  match c with
+      |Fact x->variables_of_term x
+      |Rule (h,b)->VarSet.union(variables_of_term h) (varia b)
+      let _ = assert (VarSet.equal (variables_of_clause (fact (func "p" [var "X"; var "Y"; const "a"])))
+      (VarSet.of_list [var "X"; var "Y"]))
+      let _ = assert (VarSet.equal (variables_of_clause (rule (func "p" [var "X"; var "Y"; const "a"])
+      [func "q" [const "a"; const "b"; const "a"]]))
+      (VarSet.of_list [var "X"; var "Y"]))
 
 (* ################# *)
 (* ### Problem 2 ### *)
@@ -96,11 +123,26 @@ let string_of_substitution s =
     ) s ""
   ) ^ "}"
 
-let rec substitute_in_term s t =
+(* let rec substitute_in_term s t =
   t
 
 let substitute_in_clause s c =
-  c
+  c *)
+
+  let rec substitute_in_term s t =
+  let acc = [] in
+  match t with
+  |Constant(x) -> t
+  |Variable(x) -> if (Substitution.find_opt t s) = None then t else (Substitution.find t s)
+  |Function(fun_name,l) -> Function(fun_name,List.fold_left(fun acc x -> acc@[substitute_in_term s x]) acc l)
+  (* t *)
+
+let substitute_in_clause s c =
+  let acc = [] in
+  match c with
+  |Fact(f) -> Fact(substitute_in_term s f)
+  |Rule(h,b) -> Rule(substitute_in_term s h, List.fold_left(fun acc x -> acc@[substitute_in_term s x]) acc b)
+  (* c *)
 
 
 (* ################# *)
@@ -109,12 +151,38 @@ let substitute_in_clause s c =
 
 exception Not_unifiable
 
-(* let unify t1 t2 =
-  Substitution.empty *)
+let rec unify t1 t2 u = 
+  let x = substitute_in_term u t1 in 
+  let y = substitute_in_term u t2 in
+  match x, y with
+  | Variable x', _ -> 
+    if occurs_check x y then 
+      u 
+    else
+      let u' = Substitution.map(fun t -> y) u in 
+      Substitution.add x y u' 
+      | _, Variable y' -> 
+        if occurs_check y x then u
+      else 
+        let u' = Substitution.map (fun t -> x) u in 
+        Substitution.add y x u'
+      | Constant x', Constant y' -> 
+        if x = y then 
+          u 
+        else 
+        raise Not_unifiable
+      | Function(_, hl1), Function(_, hl2) -> 
+        List.fold_left2 (fun u' h1 h2 -> unify h1 h2 u') u hl1 hl2
+      | _, _ -> raise Not_unifiable
 
-  let rec filter_unifier goalvars unif = match unif with
+
+  let unify t1 t2 = 
+    unify t1 t2 Substitution.empty
+
+  (* let rec filter_unifier goalvars unif = match unif with
       |[] -> []
-      |((v,sub)::xs) -> if (find goalvars v) then ((v,sub)::(filter_unifier goalvars xs)) else (filter_unifier goalvars xs);;
+      |((v,sub)::xs) -> if (find goalvars v) then ((v,sub)::(filter_unifier goalvars xs)) else (filter_unifier goalvars xs);; *)
+
 
 
 (* ################# *)
