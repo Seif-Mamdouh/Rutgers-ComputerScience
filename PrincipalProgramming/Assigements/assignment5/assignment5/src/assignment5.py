@@ -13,15 +13,11 @@ import traceback
 
 def assoc_list(l):
     cnt = [reduce(lambda x, y: x + (1 if y == p else 0), l, 0) for p in l]
-# using reduce to count all occurance of each and every element
-# zipping l and cnt then making a set
-# to delete repeating values
-# then turning the set to a list
-    return list(set(zip(l,cnt)))
-result = assoc_list([1, 2, 2, 1, 3])
-result.sort(key=lambda x:x[0]) # sort the result by the first element of a tuple
-assert(result == [(1, 2), (2, 2), (3, 1)])
 
+    return list(set(zip(l,cnt)))
+resultult = assoc_list([1, 2, 2, 1, 3])
+resultult.sort(key=lambda x:x[0]) # sort the resultult by the first element of a tuple
+assert(resultult == [(1, 2), (2, 2), (3, 1)])
 #################
 ### Problem  2 ##
 #################
@@ -31,24 +27,24 @@ assert(result == [(1, 2), (2, 2), (3, 1)])
 #     return []
 
 def buckets (equiv, lst):
-    classes = []
+    bucket = []
     
     for index in range(len(lst)):
         a = lst[index]
         
         for b in lst:
             if equiv(a, b):
-                if len(classes) <= index: 
-                    classes.append([b])
+                if len(bucket) <= index: 
+                    bucket.append([b])
                 else:
-                    classes[index] += [b]
+                    bucket[index] += [b]
                     
-    for sublist in classes:
-        while classes.count(sublist) > 1:
-            rindex = classes[:: - 1].index(sublist)
-            del classes[len(classes) - 1 - rindex]
+    for sublist in bucket:
+        while bucket.count(sublist) > 1:
+            rindex = bucket[:: - 1].index(sublist)
+            del bucket[len(bucket) - 1 - rindex]
             
-    return classes
+    return bucket
 
 
 ###################################
@@ -100,83 +96,48 @@ def level_order(root: TreeNode):
     if not root:
         return []
     queue = [root]
-    res = []
+    result = []
     level = 0
     while queue:
-        res.append([])
+        result.append([])
         for _ in range(len(queue)):
             node = queue.pop(0)
-            res[level].append(node.val)
+            result[level].append(node.val)
             if node.left:
                 queue.append(node.left)
             if node.right:
                 queue.append(node.right)
         level += 1
-    return res
+    return result
 
 #################
 ### Problem  4 ##
 #################
 
-# def pathSum(root: TreeNode, targetSum: int) -> List[List[int]]:
-#     return []
-
-
-# def dfs(root: TreeNode, target: int, prev_sum: int, my_list: list):
-#     if not root:
-#         return
-    
-#     prev_sum += root.val
-#     my_list.append(root.val)
-
-#     if prev_sum == target and root.left == None and root.right == None:
-#         res.append(my_list[:])
-
-#     dfs(root.left, target, prev_sum, my_list)
-#     dfs(root.right, target, prev_sum, my_list)
-#     my_list.pop()
-
-
-# def pathSum(sroot: TreeNode, targetSum: int):  # -> List[List[int]]:
-#     dfs(sroot, targetSum, 0, [])
-#     return res
-
-
-# root_1 = TreeNode()
-# root_1.list_to_tree([5, 4, 8, 11, None, 13, 4, 7, 2, None, None, 5, 1])
-
-# root_2 = TreeNode()
-# root_2.list_to_tree([1, 2, 3])
 
 def pathSum(root: TreeNode, targetSum: int):
     def solve(root, path, paths, targetSum):
         if root is None:
             return
-        #check if it is the leaf node
         if not root.left and not root.right:
-            #then check if the targetValue is matched
             if targetSum == root.val:
                 path.append(root.val)
                 paths.append(path)
                 return
 
-        #call the left and right subtree
         solve(root.left, path+[root.val], paths, targetSum-root.val)
         solve(root.right, path+[root.val], paths, targetSum-root.val)
 
         return paths
-    #check if the value of root is None
     if root is None:
         return
 
-    #now check if the root nodes is the leaf node if yes then return
     if root.val == 1 and not root.left and not root.right:
         if targetSum == 1:
             return [[1]]
 
     path = []
     paths = []
-    #function for find the paths
     return solve(root, path, paths, targetSum)
 
 
@@ -194,17 +155,17 @@ def main():
 
     # Testcases for Problem 1
     try:
-        result = assoc_list([1, 2, 2, 1, 3])
-        result.sort(key=lambda x: x[0])
-        assert (result == [(1, 2), (2, 2), (3, 1)])
+        resultult = assoc_list([1, 2, 2, 1, 3])
+        resultult.sort(key=lambda x: x[0])
+        assert (resultult == [(1, 2), (2, 2), (3, 1)])
 
-        result = assoc_list(["a", "a", "b", "a"])
-        result.sort(key=lambda x: x[0])
-        assert (result == [("a", 3), ("b", 1)])
+        resultult = assoc_list(["a", "a", "b", "a"])
+        resultult.sort(key=lambda x: x[0])
+        assert (resultult == [("a", 3), ("b", 1)])
 
-        result = assoc_list([1, 7, 7, 1, 5, 2, 7, 7])
-        result.sort(key=lambda x: x[0])
-        assert (result == [(1, 2), (2, 1), (5, 1), (7, 4)])
+        resultult = assoc_list([1, 7, 7, 1, 5, 2, 7, 7])
+        resultult.sort(key=lambda x: x[0])
+        assert (resultult == [(1, 2), (2, 1), (5, 1), (7, 4)])
     except AssertionError as err:
         error_count += 1
         _, _, tb = sys.exc_info()
