@@ -206,7 +206,30 @@ let _ = (*print_endline*) (string_of_clause (freshen c))
 
 let nondet_query program goal =
   []
-
+let nondet_query program goal =
+    let rec query goal resolvent =
+      match resolvent with
+      |[] -> goal    (* all resolvents solved *)
+      | resolvent -> (* The following control flow is not efficient at all when we have a very large number of rules. Try to improve it by following the pseudocode *)
+      let a = random element from resolvent in
+      let a' = random element from program in 
+      let rs = new resolvent with the sampled element a removed in 
+      match (freshen a') with
+      |Fact (head) ->
+        (match unify head a with 
+        | exception Not_unifiable -> ... (* not solved, exit the recursive function *)
+        | s -> ... (* recursive call to query happening here *)
+        )
+      |Rule (head,body) ->
+        ( ... (* similar to the Fact case above *)
+        )
+      in
+      let rec loop () =
+        let result = query ... ... in (* correctly initialize the goal and resolvent in the first and second parameters of query *)
+        if result is not solved then loop ()   (* failed so restart from scratch. reinitializing goal and resolvent *)
+        else result                            (* done *)
+      in
+      call loop to begin the search procedure.
 
 (* ################# *)
 (* ### Problem 5 ### *)
