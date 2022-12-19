@@ -176,6 +176,37 @@ let rec unify t1 t2 u =
 
 let unify t1 t2 =
   Substitution.empty
+  
+  
+  
+  
+  exception Not_unifiable
+
+let rec unify term1 term2 u = 
+  let subs_interm = substitute_in_term u term1 in 
+  let subinterm2 = substitute_in_term u term2 in
+  match subs_interm, y with
+  | Variable seif', z -> 
+    if occurs_check subs_interm subinterm2 then u 
+    else
+      let u' = Substitution.map(fun t -> subinterm2) u in 
+      Substitution.add subs_interm subinterm2 u' 
+      | _, Variable y' -> 
+        if occurs_check subinterm2 subs_interm then u
+      else 
+        let u' = Substitution.map (fun t -> x) u in 
+        Substitution.add subinterm2 subs_interm u'
+      | Constant seif', Constant y' -> 
+        if subs_interm = subinterm2 then u 
+        else raise TypeError Not_unifiable
+
+      | Function(random, headlist1), Function(random, headlist2) -> 
+        List.fold_left2 (fun u' head1 heading2 -> unify head1 heading2 u') u headlist1 headlist2
+      | r, rnadom -> raise Not_unifiable
+
+
+  let unify term1 term2 = 
+    unify term1 term2 Substitution.empty
 
   (* let rec filter_unifier goalvars unif = match unif with
       |[] -> []
