@@ -1,0 +1,209 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage[top=1in, bottom=1in, left=0.8in, right=1in]{geometry}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{enumerate}
+\usepackage{comment}
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage[ruled,vlined]{algorithm2e}
+\lstset{language=Java, basicstyle={\small\ttfamily}, columns=flexible, belowskip=0mm}
+\setlength{\columnsep}{0.1pc}
+
+\begin{document}
+
+\noindent
+CS 344 \hfill \textbf{Problem Set 1} \newline 
+{Spring 2024} \hfill \textbf{Due:} February 16, 2024, 11:59 p.m.
+
+\noindent
+\rule{\linewidth}{0.4pt}
+
+\vspace{.5cm}
+
+\textbf{Name}: ({\color{blue}Replace me with your name})~~~~~\textbf{NetID}: ({\color{blue}Replace me with your NetID})
+
+\vspace{.5cm}
+
+\textbf{Honor Code}: Students may discuss and work on homework problems in groups, which is encouraged. However, each student must write down their solutions independently to show they understand the solution well enough to reconstruct it by themselves.  Students should clearly mention the names of the other students who offered discussions. We check all submissions for plagiarism. We take the honor code seriously and expect students to do the same. 
+
+
+\vspace{.5cm}
+
+\textbf{Instruction for Submission}: This homework has a total of 100 points, it will be rescaled to 10 points as the eventual score. 
+
+We encourage you to use LaTex to write your answer, because it's particularly suitable to type equations and it's frequently used for writing academic papers. We have provided the homework1.tex file for you, you can write your answer to each question in this .tex file directly after the corresponding question, and then compile the .tex file into a PDF file for submission. As a quick introduction to LaTex, please see this \textit{Learn LaTeX in 30 minutes} \footnote{\url{https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes}}. Compiling a .tex file into a PDF file needs installing the LaTex software on your laptop. It's free and open source. But if you don't want to install the software, you can just use this website \url{https://www.overleaf.com/}, which is also free of charge. You can just create an empty project in this website and upload the homework1.zip, and then the website will compile the PDF for you. You can also directly edit your answers on the website and instantly compile your file.
+
+You can also use Microsoft Word or other software if you don't want to use LaTex. If so, please clearly number your answers so that we know which answer corresponds to which question. You also need to save your answers as a PDF file for submission.
+
+Finally, please submit your PDF file only. You should name your PDF file as ``{\color{blue}{Firstname-Lastname-NetID.pdf'}}'.
+
+\vspace{.5cm}
+
+\textbf{Late Policy}: The homework is due on 2/16 (Friday) at 11:59pm, i.e., you have two weeks to complete it. We will release the solutions of the homework on Canvas on 2/21 (Wednesday) 11:59pm. If your homework is submitted to Canvas before 2/16 11:59pm, there will no late penalty. If you submit to Canvas after 2/16 11:59pm and before 2/21 11:59pm (i.e., before we release the solution), your score will be penalized by $0.9^k$, where $k$ is the number of days of late submission. For example, if you submitted on 2/19, and your original score is 80, then your final score will be $80*0.9^3=58.32$ for $19-16=3$ days of late submission. If you submit to Canvas after 2/21 11:59pm (i.e., after we release the solution), then you will earn no score for the homework.
+
+\vspace{.5cm}
+
+\textbf{Make best use of picture in Latex}: If you think some part of your answer is too difficult to type using Latex, you may write that part on paper and scan it as a picture, and then insert that part into Latex as a picture, and finally Latex will compile the picture into the final PDF output. This will make things easier. Regarding how to insert pictures in Latex, you may refer to the Figure 1 in the following, which is an example of inserting pictures in Latex.
+
+
+\hrulefill
+
+Discussion Group (People with whom you discussed ideas used in your answers if any):     \\[1ex]
+
+
+I acknowledge and accept the Honor Code. Please type your initials below:
+
+\textbf{Signed}: ({\color{blue}Replace me with your initials})
+
+\hrulefill
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Problems:
+
+\begin{enumerate}
+
+  % Problem 1
+  \item \textbf{Big-O notation.} We have learnt big-O notation to compare the growth rates of functions, this exercise helps you to better understand its definition and properties.
+  \begin{enumerate}
+  	\item (12 points) Suppose $n$ is the input size, we have the following commonly seen functions in complexity analysis: $f_1(n)=1, f_2(n)=\log n, f_3(n)=n, f_4(n)=n\log n, f_5(n)=n^2, f_6(n)=2^n, f_7(n)=n!$. Intuitively, the growth rate of the functions satisfy $1<\log n<n<n\log n<n^2<2^n<n!$. Prove this is true. 
+	
+	[\textbf{Hint}: You are expected to prove the following asymptotics by using the definition of big-O notation: $1=O(\log n), \log n=O(n), n=O(n\log n), n\log n=O(n^2), n^2=O(2^n), 2^n=O(n!)$. \textbf{Note}: Chap 3.2 of our textbook provides some math facts in case you need.]
+
+	{\color{blue}Answer: my answer to the question.}
+
+	\item (8 points) Let $f,g:N\rightarrow R^+$, prove that $O(f(n)+g(n))=O(\max\{f(n),g(n)\})$.
+	
+	[\textbf{Hint}: The key is $\max\{f(n),g(n)\}\le f(n)+g(n)\le 2\cdot\max\{f(n),g(n)\}$. \textbf{Note}: Proving this will help you to understand why we can leave out the insignificant parts in big-O notation and only keep the dominate part, e.g., $O(n^2+n\log n+n)=O(n^2)$.]
+	
+	{\color{blue}Answer: }
+	
+  \end{enumerate}
+
+  % Problem 2
+  \item \textbf{Proof of correctness.} (10 points) We have the following algorithm that sorts a list of integers to ascending order. Prove that this algorithm is correct. [\textbf{Hint:} You are expected to use mathematical induction to provide a rigorous proof.]
+    \begin{algorithm}
+      \KwIn{Unsorted list $A = [a_1,\ldots,a_n]$ of $n$ items}
+      \KwOut{Sorted list $A' = [a'_1,\ldots,a'_n]$ of $n$ items in ascending order}
+      \caption{\texttt{Sort a list}}
+      \For{$i = 0$, $i < n - 1$, $i{+}{+}$}{
+        // Find the minimum element \\
+        min\_index = $i$ \\
+        \For{$j = i+1$, $j < n$, $j{+}{+}$}{
+          \If{$A[j] < A[\mathrm{min\_index}]$}{
+            min\_index = $j$
+          }
+        }
+        // Swap the minimum element with the first element \\
+        swap($A$, $i$, min\_index)
+      }
+      \Return{A}
+    \end{algorithm}
+
+    {\color{blue}Answer: }
+
+  % Problem 3
+  \item \textbf{Practice the recursion tree.} (10 points) We have already had a recurrence relation of an algorithm, which is $T(n) = 3 T(n/2) + 2n$. Solve this recurrence relation, i.e. express it as $T(n) = O(f(n))$, by using the recursion tree method. [\textbf{Note}: If you find it difficult to draw a picture using Latex directly, you can draw it using Microsoft PowerPoint and then save it as a picture file (.png or .jpg), or you can draw on a piece of paper by hand, and take a picture of it using your phone. Then, you can insert the picture into your latex code and compile it into the final PDF submission. The following code shows an example of how to insert figures in latex code, as shown in Figure \ref{fig:example}.]
+  
+  \begin{figure}[h]
+  	\centering
+  	\includegraphics*[scale=0.1]{example_image.jpg}
+	\caption{An example showing how to insert figures in latex code.}
+	\label{fig:example}
+  \end{figure}
+  
+  {\color{blue}Answer: }
+  
+  % Problem 4
+  \item \textbf{Practice with the iteration method.} We have already had a recurrence relation of an algorithm, which is $T(n) = 4 T(n/2) + n^2 \log n$. We know $T(1) \le c$.
+  \begin{enumerate}
+  
+  \item (5 points) Solve this recurrence relation, i.e., express it as $T(n) = O(f(n))$, by using the iteration method.
+
+  {\color{blue}Answer: }
+  
+  \item (5 points) Prove, by using mathematical induction, that the iteration rule you have observed in 4(a) is correct and you have solved the recurrence relation correctly. [\textbf{Hint}: You can write out the general form of $T(n)$ at the iteration step $t$, and prove that this form is correct for any iteration step $t$ by using mathematical induction. Then by finding out the eventual number of $t$ and substituting it into your general form of $T(n)$, you get the $O(\cdot)$ notation of $T(n)$.]
+
+  {\color{blue}Answer: }
+  
+  \end{enumerate}
+
+
+  % Problem 5  
+  \item \textbf{Practice with the Master Theorem}. Solve the following recurrence relations; i.e. express each one as $T(n) = O(f(n))$ for the tightest possible function $f(n)$ using the Master Theorem, and give a short justification. Unless otherwise stated, assume $T(1) = 1$.
+    \textbf{[To see the level of detail expected, we have worked out the first one for you.]}
+
+    \begin{enumerate}[(a)]
+
+      \item[(z)] $T(n) = 6T(n/6) + 1$.  We apply the master theorem with $a = b = 6$ and with $d = 0$.  We have $a > b^d$, and so the running time is $O(n^{\log_6(6)}) = O(n)$.
+
+      \item (5 points) $T(n) = 3 T(n/4) + \sqrt{n}$
+      
+      {\color{blue}Answer: }
+      
+      \item (5 points) $T(n) = 7 T(n/3) + \Theta(n^3)$
+      
+      {\color{blue}Answer: }
+
+      \item (5 points) $T(n) = 2 T(n/3) + n^c$, where $c \geq 1$ is a constant that doesn't depend on $n$.
+      
+      {\color{blue}Answer: }
+
+    \end{enumerate}
+  
+  
+  % Problem 6
+  \item \textbf{Proof of the Master Theorem.} (15 points) Now that we have practiced with the recursion tree method, the iteration method, and the Master method. The Master Theorem states that, suppose $T(n)=a\cdot T(n/b)+O(n^d)$, we have:
+  \begin{displaymath}
+  T(n)=\left\{
+	\begin{aligned}
+	&O(n^d\log n),~~~if~a=b^d\\
+	&O(n^d),~~~if~a<b^d\\
+	&O(n^{\log_b a}),~~~if~a>b^d
+	\end{aligned}
+	\right.
+  \end{displaymath}
+  Prove that the Master Theorem is true by using either the recursion tree method or the iteration method.
+  
+  {\color{blue}Answer: }
+  
+  
+  % Problem 7
+  \item \textbf{Algorithm design.} Each of $n$ users spends some time on a social media site.  For each $i = 1,\ldots, n$, user $i$ enters the site at time $a_i$ and leaves at time $b_i \geq a_i$.  You are interested in the question: how many distinct pairs of users are ever on the site at the same time?  (Here, the pair $(i,j)$ is the same as the pair $(j,i)$).
+
+  Example: Suppose there are 5 users with the following entering and leaving times:
+  \begin{center}
+    \begin{tabular}{c|c|c}
+      User & Enter time & Leave time \\
+      \hline
+      1 & 1 & 4 \\
+      2 & 2 & 5 \\
+      3 & 7 & 8 \\
+      4 & 9 & 10 \\
+      5 & 6 & 10
+    \end{tabular}
+  \end{center}
+  Then, the number of distinct pairs of users who are on the site at the same time is three: these pairs are $(1, 2)$, $(4,5)$, $(3,5)$. (Drawing the intervals on a number line may make this easier to see).
+
+  \begin{enumerate}
+    
+    \item (10 points) Given input $(a_1, b_1), (a_2, b_2), \ldots, (a_n, b_n)$ as above in no particular order (i.e., not sorted in any way), describe a straightforward algorithm that takes $\Theta(n^2)$-time to compute the number of pairs of users who are ever on the site at the same time, and explain why it takes $\Theta(n^2)$-time.
+    \textbf{[We are expecting pseudocode and a brief justification for its runtime.]}
+    
+    {\color{blue}Answer: }
+        
+    \item (10 points) Give an $\Theta(n \log(n))$-time algorithm to do the same task and analyze its running time. (\textbf{Hint:} consider sorting relevant events by time).
+    \textbf{[We are expecting pseudocode and a brief justification for its runtime.]}
+    
+    {\color{blue}Answer: }
+    
+  \end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}
